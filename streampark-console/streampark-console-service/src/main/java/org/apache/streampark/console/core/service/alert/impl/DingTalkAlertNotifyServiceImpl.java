@@ -90,6 +90,7 @@ public class DingTalkAlertNotifyServiceImpl implements AlertNotifyService {
       contactMap.put("atMobiles", contactList);
       contactMap.put("isAtAll", BooleanUtils.toBoolean(dingTalkParams.getIsAtAll()));
 
+      log.info("[userName]:{}", alertTemplate.getUserName());
       // format markdown
       String markdown = FreemarkerUtils.format(template, alertTemplate);
 

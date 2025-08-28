@@ -139,6 +139,7 @@ public class ProxyServiceImpl implements ProxyService {
     }
 
     url += getRequestURL(request, "/proxy/flink/" + appId);
+    log.error("proxyFlink url:{}",url);
     return proxyRequest(request, url);
   }
 
@@ -154,6 +155,7 @@ public class ProxyServiceImpl implements ProxyService {
     String yarnURL = YarnUtils.getRMWebAppProxyURL();
     String url = yarnURL + "/proxy/" + yarnId + "/";
     url += getRequestURL(request, "/proxy/yarn/" + logId);
+//    log.error("proxyFlink url:{}", url);
     return proxyYarnRequest(request, url);
   }
 

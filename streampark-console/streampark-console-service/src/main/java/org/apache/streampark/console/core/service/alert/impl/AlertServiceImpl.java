@@ -28,6 +28,7 @@ import org.apache.streampark.console.core.entity.Application;
 import org.apache.streampark.console.core.enums.AlertType;
 import org.apache.streampark.console.core.enums.CheckPointStatus;
 import org.apache.streampark.console.core.enums.FlinkAppState;
+import org.apache.streampark.console.core.service.ServiceHelper;
 import org.apache.streampark.console.core.service.alert.AlertConfigService;
 import org.apache.streampark.console.core.service.alert.AlertNotifyService;
 import org.apache.streampark.console.core.service.alert.AlertService;
@@ -35,6 +36,7 @@ import org.apache.streampark.console.core.service.alert.AlertService;
 import org.apache.flink.api.java.tuple.Tuple2;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.streampark.console.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -50,6 +52,8 @@ import java.util.concurrent.TimeUnit;
 public class AlertServiceImpl implements AlertService {
   @Autowired private AlertConfigService alertConfigService;
 
+  @Autowired private ServiceHelper serviceHelper;
+
   private final ExecutorService notifyExecutor =
       new ThreadPoolExecutor(
           1,
@@ -61,13 +65,13 @@ public class AlertServiceImpl implements AlertService {
 
   @Override
   public void alert(Application application, CheckPointStatus checkPointStatus) {
-    AlertTemplate alertTemplate = AlertTemplate.of(application, checkPointStatus);
+    AlertTemplate alertTemplate = AlertTemplate.of(serviceHelper, application, checkPointStatus);
     notifyExecutor.submit(() -> alert(application, alertTemplate));
   }
 
   @Override
   public void alert(Application application, FlinkAppState appState) {
-    AlertTemplate alertTemplate = AlertTemplate.of(application, appState);
+    AlertTemplate alertTemplate = AlertTemplate.of(serviceHelper, application, appState);
     notifyExecutor.submit(() -> alert(application, alertTemplate));
   }
 

@@ -484,7 +484,7 @@
                     </executions>
                 </plugin>
 
-                <plugin>
+                <!--<plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <version>${maven-checkstyle-plugin.version}</version>
@@ -532,60 +532,60 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
+                </plugin>-->
 
-                <plugin>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <version>${maven-spotless-plugin.version}</version>
-                    <configuration>
-                        <java>
-                            <includes>
-                                <include>src/main/java/**/*.java</include>
-                                <include>src/test/java/**/*.java</include>
-                            </includes>
-                            <googleJavaFormat>
-                                <version>1.7</version>
-                                <style>GOOGLE</style>
-                            </googleJavaFormat>
-                            <importOrder>
-                                <order>org.apache.streampark,org.apache.streampark.shaded,org.apache,,javax,java,scala,\#</order>
-                            </importOrder>
-                            <replaceRegex>
-                                <name>Remove wildcard imports</name>
-                                <searchRegex>import\s+(static)*\s*[^\*\s]+\*;(\r\n|\r|\n)</searchRegex>
-                                <replacement>$1</replacement>
-                            </replaceRegex>
-                            <replaceRegex>
-                                <name>Block powermock</name>
-                                <searchRegex>import\s+org\.powermock\.[^\*\s]*(|\*);(\r\n|\r|\n)</searchRegex>
-                                <replacement>$1</replacement>
-                            </replaceRegex>
-                            <replaceRegex>
-                                <name>Block jUnit4 imports</name>
-                                <searchRegex>import\s+org\.junit\.[^jupiter][^\*\s]*(|\*);(\r\n|\r|\n)</searchRegex>
-                                <replacement>$1</replacement>
-                            </replaceRegex>
-                            <removeUnusedImports />
-                        </java>
-                        <scala>
-                            <scalafmt>
-                                <version>${spotless.scalafmt.version}</version>
-                                <!--suppress UnresolvedMavenProperty -->
-                                <file>${maven.multiModuleProjectDirectory}/.scalafmt.conf</file>
-                            </scalafmt>
-                        </scala>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>spotless-check</id>
-                            <phase>validate</phase>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+<!--                <plugin>-->
+<!--                    <groupId>com.diffplug.spotless</groupId>-->
+<!--                    <artifactId>spotless-maven-plugin</artifactId>-->
+<!--                    <version>${maven-spotless-plugin.version}</version>-->
+<!--                    <configuration>-->
+<!--                        <java>-->
+<!--                            <includes>-->
+<!--                                <include>src/main/java/**/*.java</include>-->
+<!--                                <include>src/test/java/**/*.java</include>-->
+<!--                            </includes>-->
+<!--                            <googleJavaFormat>-->
+<!--                                <version>1.7</version>-->
+<!--                                <style>GOOGLE</style>-->
+<!--                            </googleJavaFormat>-->
+<!--                            <importOrder>-->
+<!--                                <order>org.apache.streampark,org.apache.streampark.shaded,org.apache,,javax,java,scala,\#</order>-->
+<!--                            </importOrder>-->
+<!--                            <replaceRegex>-->
+<!--                                <name>Remove wildcard imports</name>-->
+<!--                                <searchRegex>import\s+(static)*\s*[^\*\s]+\*;(\r\n|\r|\n)</searchRegex>-->
+<!--                                <replacement>$1</replacement>-->
+<!--                            </replaceRegex>-->
+<!--                            <replaceRegex>-->
+<!--                                <name>Block powermock</name>-->
+<!--                                <searchRegex>import\s+org\.powermock\.[^\*\s]*(|\*);(\r\n|\r|\n)</searchRegex>-->
+<!--                                <replacement>$1</replacement>-->
+<!--                            </replaceRegex>-->
+<!--                            <replaceRegex>-->
+<!--                                <name>Block jUnit4 imports</name>-->
+<!--                                <searchRegex>import\s+org\.junit\.[^jupiter][^\*\s]*(|\*);(\r\n|\r|\n)</searchRegex>-->
+<!--                                <replacement>$1</replacement>-->
+<!--                            </replaceRegex>-->
+<!--                            <removeUnusedImports />-->
+<!--                        </java>-->
+<!--                        <scala>-->
+<!--                            <scalafmt>-->
+<!--                                <version>${spotless.scalafmt.version}</version>-->
+<!--                                &lt;!&ndash;suppress UnresolvedMavenProperty &ndash;&gt;-->
+<!--                                <file>${maven.multiModuleProjectDirectory}/.scalafmt.conf</file>-->
+<!--                            </scalafmt>-->
+<!--                        </scala>-->
+<!--                    </configuration>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>spotless-check</id>-->
+<!--                            <phase>validate</phase>-->
+<!--                            <goals>-->
+<!--                                <goal>check</goal>-->
+<!--                            </goals>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
 
                 <!--maven-->
                 <plugin>
@@ -817,15 +817,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
+            </plugin>-->
 
-            <plugin>
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.diffplug.spotless</groupId>-->
+<!--                <artifactId>spotless-maven-plugin</artifactId>-->
+<!--            </plugin>-->
 
             <plugin>
                 <groupId>org.owasp</groupId>

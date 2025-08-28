@@ -101,9 +101,10 @@ public class AlertController {
   @PostMapping("/send")
   public RestResponse sendAlert(Long id) throws AlertException {
     AlertTemplate alertTemplate = new AlertTemplate();
-    alertTemplate.setTitle("Notify: StreamPark alert job for test");
-    alertTemplate.setJobName("StreamPark alert job for test");
-    alertTemplate.setSubject("StreamPark Alert: Test");
+    alertTemplate.setUserName("test-user");
+    alertTemplate.setTitle("Notify: alert job for test");
+    alertTemplate.setJobName("alert job for test");
+    alertTemplate.setSubject("Alert: Test");
     alertTemplate.setStatus("TEST");
     alertTemplate.setType(1);
     alertTemplate.setRestart(false);

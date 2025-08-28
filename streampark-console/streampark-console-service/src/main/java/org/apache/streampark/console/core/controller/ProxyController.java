@@ -59,6 +59,7 @@ public class ProxyController {
       throws Exception {
     switch (type) {
       case "flink":
+        //获取当前登录用户信息
         return proxyService.proxyFlink(request, id);
       case "cluster":
         return proxyService.proxyCluster(request, id);

@@ -84,6 +84,7 @@ import org.apache.streampark.console.core.service.YarnQueueService;
 import org.apache.streampark.console.core.task.CheckpointProcessor;
 import org.apache.streampark.console.core.task.FlinkAppHttpWatcher;
 import org.apache.streampark.console.core.task.FlinkK8sWatcherWrapper;
+import org.apache.streampark.console.system.entity.User;
 import org.apache.streampark.console.system.service.MemberService;
 import org.apache.streampark.flink.client.FlinkClient;
 import org.apache.streampark.flink.client.bean.CancelRequest;
@@ -773,6 +774,13 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Appli
 
     appParam.setBuild(true);
     appParam.setUserId(serviceHelper.getUserId());
+    User loginUser = serviceHelper.getLoginUser();
+    String username = loginUser.getUsername();
+    if (StringUtils.isEmpty(username)) {
+        username = loginUser.getNickName();
+    }
+    log.info("[userName]:{} [nickName]:{} [jobName]:{}", loginUser.getUsername(), loginUser.getNickName(), appParam.getJobName());
+    appParam.setUserName(username);
     appParam.setState(FlinkAppState.ADDED.getValue());
     appParam.setRelease(ReleaseState.NEED_RELEASE.get());
     appParam.setOptionState(OptionState.NONE.getValue());
@@ -840,6 +848,13 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Appli
     Application newApp = new Application();
     String jobName = appParam.getJobName();
 
+    User loginUser = serviceHelper.getLoginUser();
+    String username = loginUser.getUsername();
+    if (StringUtils.isEmpty(username)) {
+        username = loginUser.getNickName();
+    }
+    log.info("[userName]:{} [nickName]:{} [jobName]:{}", loginUser.getUsername(), loginUser.getNickName(), appParam.getJobName());
+    newApp.setUserName(username);
     newApp.setJobName(jobName);
     newApp.setClusterId(
         ExecutionMode.isSessionMode(persist.getExecutionModeEnum())
@@ -988,6 +1003,15 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Appli
     appParam.setJobType(application.getJobType());
     // changes to the following parameters need to be re-release to take effect
     application.setJobName(appParam.getJobName());
+    User loginUser = serviceHelper.getLoginUser();
+
+    String username = loginUser.getUsername();
+    if (StringUtils.isEmpty(username)) {
+        username = loginUser.getNickName();
+    }
+    log.info("[userName]:{} [nickName]:{} [jobName]:{}", loginUser.getUsername(), loginUser.getNickName(), appParam.getJobName());
+    application.setUserName(username);
+
     application.setVersionId(appParam.getVersionId());
     application.setArgs(appParam.getArgs());
     application.setOptions(appParam.getOptions());

@@ -168,10 +168,10 @@ object DateUtils {
     lazy val seconds = TimeUnit.MILLISECONDS.toSeconds(duration3)
 
     val builder = new mutable.StringBuilder
-    if (days > 0) builder.append(days + " days ")
-    if (hours > 0 || minutes > 0 || seconds > 0) builder.append(hours + " hours ")
-    if (minutes > 0 || seconds > 0) builder.append(minutes + " minutes ")
-    if (seconds > 0) builder.append(seconds + " seconds ")
+    if (days > 0) builder.append(days + " 天 ")
+    if (hours > 0 || minutes > 0 || seconds > 0) builder.append(hours + " 时 ")
+    if (minutes > 0 || seconds > 0) builder.append(minutes + " 分 ")
+    if (seconds > 0) builder.append(seconds + " 秒 ")
     builder.toString
   }
 

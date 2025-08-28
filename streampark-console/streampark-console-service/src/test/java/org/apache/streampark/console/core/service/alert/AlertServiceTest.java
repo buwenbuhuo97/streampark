@@ -69,9 +69,9 @@ class AlertServiceTest {
 
   private void initAlertTemplate() {
     alertTemplate = new AlertTemplate();
-    alertTemplate.setTitle("Notify: StreamPark alert job for test");
-    alertTemplate.setSubject("StreamPark Alert: test-job OTHER");
-    alertTemplate.setJobName("StreamPark alert job for test");
+    alertTemplate.setTitle("Notify: alert job for test");
+    alertTemplate.setSubject("Alert: test-job OTHER");
+    alertTemplate.setJobName("alert job for test");
     alertTemplate.setLink("http://127.0.0.1:8080");
     alertTemplate.setStatus("TEST");
     alertTemplate.setType(1);
@@ -98,9 +98,9 @@ class AlertServiceTest {
 
   void before2() {
     alertTemplate = new AlertTemplate();
-    alertTemplate.setTitle("Alert: StreamPark alert job for test");
-    alertTemplate.setSubject("StreamPark Alert: test-job OTHER");
-    alertTemplate.setJobName("StreamPark alert job for test");
+    alertTemplate.setTitle("Alert: alert job for test");
+    alertTemplate.setSubject("Alert: test-job OTHER");
+    alertTemplate.setJobName("alert job for test");
     alertTemplate.setLink("http://127.0.0.1:8080");
     alertTemplate.setStatus("TEST");
     alertTemplate.setType(2);
@@ -190,7 +190,7 @@ class AlertServiceTest {
       writer.close();
 
       String subject =
-          String.format("StreamPark Alert: %s %s", application.getJobName(), appState.name());
+          String.format("Alert: %s %s", application.getJobName(), appState.name());
       sendEmail(subject, html, "****@domain.com");
     } catch (Exception e) {
       e.printStackTrace();

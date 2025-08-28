@@ -24,17 +24,25 @@ import org.apache.streampark.console.core.entity.Application;
 import org.apache.streampark.console.core.enums.CheckPointStatus;
 import org.apache.streampark.console.core.enums.FlinkAppState;
 
+import lombok.extern.slf4j.Slf4j;
+
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.streampark.console.core.service.ServiceHelper;
+import org.apache.streampark.console.system.entity.User;
+import org.apache.streampark.console.system.service.UserService;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.TimeZone;
 
+@Slf4j
 @Getter
 @Setter
 public class AlertTemplate implements Serializable {
   private String title;
   private String subject;
+  private String userName;
   private String jobName;
   private String status;
   private Integer type;
@@ -49,10 +57,28 @@ public class AlertTemplate implements Serializable {
   private Integer totalRestart;
   private boolean atAll = false;
 
-  private static AlertTemplate of(Application application) {
+  private static AlertTemplate of(ServiceHelper serviceHelper, Application application) {
 
     AlertTemplate template = new AlertTemplate();
     template.setJobName(application.getJobName());
+
+    Long userId = application.getUserId();
+    String userName = application.getUserName();
+    if (!StringUtils.hasText(userName) && userId != null) {
+        /*User loginUser = serviceHelper.getLoginUser();
+        if (loginUser != null) {
+            log.info("[userName-loginUser]:{}; [userId]:{}", userName, userId);
+            userName = loginUser.getUsername();
+        } else {*/
+            User user = serviceHelper.getByUserId(userId);
+            if (user != null) {
+                log.info("[userName-user]:{}; [userId]:{}", userName, userId);
+                userName = user.getUsername();
+            }
+        //}
+    }
+    log.info("[userName]:{}; [userId]:{}", userName, userId);
+    template.setUserName(userName);
 
     if (ExecutionMode.isYarnMode(application.getExecutionMode())) {
       String format = "%s/proxy/%s/";
@@ -101,24 +127,24 @@ public class AlertTemplate implements Serializable {
     return template;
   }
 
-  public static AlertTemplate of(Application application, FlinkAppState appState) {
-    AlertTemplate template = of(application);
+  public static AlertTemplate of(ServiceHelper serviceHelper, Application application, FlinkAppState appState) {
+    AlertTemplate template = of(serviceHelper, application);
     template.setType(1);
     template.setTitle(String.format("Notify: %s %s", application.getJobName(), appState.name()));
-    template.setSubject(String.format("StreamPark Alert: %s %s", template.getJobName(), appState));
+    template.setSubject(String.format("%s %s %s", template.getJobName(), "is", appState));
     template.setStatus(appState.name());
     return template;
   }
 
-  public static AlertTemplate of(Application application, CheckPointStatus checkPointStatus) {
-    AlertTemplate template = of(application);
+  public static AlertTemplate of(ServiceHelper serviceHelper, Application application, CheckPointStatus checkPointStatus) {
+    AlertTemplate template = of(serviceHelper, application);
     template.setType(2);
     template.setCpFailureRateInterval(
         DateUtils.toStringDuration(application.getCpFailureRateInterval() * 1000 * 60));
     template.setCpMaxFailureInterval(application.getCpMaxFailureInterval());
     template.setTitle(String.format("Notify: %s checkpoint FAILED", application.getJobName()));
     template.setSubject(
-        String.format("StreamPark Alert: %s, checkPoint is Failed", template.getJobName()));
+        String.format("Alert: %s, checkPoint is Failed", template.getJobName()));
     return template;
   }
 }

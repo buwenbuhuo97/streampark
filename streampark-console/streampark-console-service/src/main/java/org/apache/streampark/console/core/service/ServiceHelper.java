@@ -61,6 +61,10 @@ public class ServiceHelper {
     return userService.getById(userId);
   }
 
+  public User getByUserId(Long userId) {
+    return userService.getById(userId);
+  }
+
   public Long getUserId() {
     User user = getLoginUser();
     if (user != null) {

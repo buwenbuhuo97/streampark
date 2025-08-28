@@ -17,6 +17,8 @@
 
 package org.apache.streampark.console.core.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.hadoop.shaded.org.eclipse.jetty.util.ajax.JSON;
 import org.apache.streampark.console.base.domain.RestResponse;
 import org.apache.streampark.console.core.annotation.OpenAPI;
 import org.apache.streampark.console.core.annotation.PermissionScope;
@@ -27,6 +29,7 @@ import org.apache.streampark.console.core.service.ApplicationService;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
+import org.apache.streampark.console.core.service.ServiceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@Slf4j
 @Validated
 @RestController
 @RequestMapping("openapi")
@@ -44,6 +48,8 @@ public class OpenAPIController {
   @Autowired private OpenAPIComponent openAPIComponent;
 
   @Autowired private ApplicationService applicationService;
+
+  @Autowired private ServiceHelper serviceHelper;
 
   @OpenAPI(
       name = "flinkStart",
@@ -133,6 +139,13 @@ public class OpenAPIController {
   @PostMapping("app/cancel")
   @RequiresPermissions("app:cancel")
   public RestResponse flinkCancel(Application app) throws Exception {
+    try {
+        String authorization = serviceHelper.getAuthorization();
+        log.error("flinkCancel-token:{}", authorization);
+    } catch (Exception e) {
+        log.error("flinkCancel-token:{}", "no token");
+    }
+    log.error("flinkCancel:{}", JSON.toString(app));
     applicationService.cancel(app);
     return RestResponse.success();
   }
